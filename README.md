@@ -20,11 +20,7 @@ Installation
 Exposed sensors
 ---------------
 
-- sensor.erie_watertreatment_flow - Display current water flow
 - sensor.erie_watertreatment_last_maintenance - Last maintenance timestamp
-- sensor.erie_watertreatment_last_maintenance_formatted_date - Last maintenance formatted date
 - sensor.erie_watertreatment_last_regeneration - Last regeneration timestamp
-- sensor.erie_watertreatment_last_regeneration_formatted_date - Last maintenance formatted date
 - sensor.erie_watertreatment_nr_regenerations - Total number of regenerations
-- sensor.erie_watertreatment_time_until_maintenance - Time until next maintenance (not working)
 - sensor.erie_watertreatment_total_volume - Total volume since installation

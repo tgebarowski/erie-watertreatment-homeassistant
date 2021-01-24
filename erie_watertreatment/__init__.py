@@ -123,7 +123,7 @@ async def create_coordinator(hass, api):
                 "last_regeneration": response.content["last_regeneration"],
                 "nr_regenerations": response.content["nr_regenerations"],
                 "last_maintenance": response.content["last_maintenance"],
-                "total_volume": response.content["total_volume"],
+                "total_volume": response.content["total_volume"].split()[0]
             }
         except:
             raise SensorUpdateFailed
