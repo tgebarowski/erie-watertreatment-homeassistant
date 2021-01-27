@@ -182,4 +182,4 @@ Automations
 Authors
 -------
 
-This Home Assistant integration was written by `Tomasz Gebarowski <gebarowski@gmail.com>`_.
+This Home Assistant integration was written by Tomasz Gebarowski <gebarowski@gmail.com>.
