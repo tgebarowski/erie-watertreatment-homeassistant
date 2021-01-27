@@ -68,28 +68,28 @@ Exemplary Lovelace cards:
 
 ### Infobox
 
-![image](https://github.com/tgebarowski/erie-watertreatment-homeassistant/blob/main/img/entities-card.png)
+![image | width=500](https://github.com/tgebarowski/erie-watertreatment-homeassistant/blob/main/img/entities-card.png)
 
 ```yaml
 cards:
-	entities:
-	    - entity: sensor.erie_watertreatment_warnings
-	      name: Warnings
-	    - entity: sensor.erie_watertreatment_total_volume
-	      name: Total water consumption
-	      icon: mdi:water
-	    - entity: sensor.erie_watertreatment_last_regeneration_formatted_date
-	      name: Last regeneration
-	      icon: mdi:calendar-clock
-	    - entity: sensor.erie_watertreatment_nr_regenerations
-	      name: Regenerations count
-	      icon: mdi:recycle
-	    - entity: sensor.erie_watertreatment_last_maintenance_formatted_date
-	      name: Last service
-	      icon: mdi:calendar-clock
-	    - entity: sensor.erie_watertreatment_time_until_maintenance
-	      name: Time till next service
-	      icon: mdi:calendar-clock
+  entities:
+    - entity: sensor.erie_watertreatment_warnings
+      name: Warnings
+        - entity: sensor.erie_watertreatment_total_volume
+          name: Total water consumption
+          icon: mdi:water
+        - entity: sensor.erie_watertreatment_last_regeneration_formatted_date
+          name: Last regeneration
+          icon: mdi:calendar-clock
+        - entity: sensor.erie_watertreatment_nr_regenerations
+          name: Regenerations count
+          icon: mdi:recycle
+        - entity: sensor.erie_watertreatment_last_maintenance_formatted_date
+          name: Last service
+          icon: mdi:calendar-clock
+        - entity: sensor.erie_watertreatment_time_until_maintenance
+          name: Time till next service
+          icon: mdi:calendar-clock
 
 ```
 
@@ -133,28 +133,28 @@ cards:
 ```yaml
 cards:
   - type: custom:mini-graph-card
-	entities:
-	  - entity: sensor.erie_watertreatment_flow
-	    aggregate_func: sum
-	    name: "Water consumption"
-	name: Last 24 hours water consumption
-	hours_to_show: 24
-	group_by: hour
-	hour24: true
-	show:
-	  graph: bar
-	  labels: true
-	color_thresholds:
-	  - value: 0
-	    color: "#f5fdff"
-	  - value: 1
-	    color: "#3295a8"               
-	style: |
-	  ha-card {
-	    --ha-card-border-radius: '8px';
-	    --ha-card-border-size: '1px';
-	    --ha-card-border-color: rgba(255, 255, 0, 0);
-	    --ha-card-box-shadow: 'none';
-	  }  
+    entities:
+      - entity: sensor.erie_watertreatment_flow
+        aggregate_func: sum
+        name: "Water consumption"
+    name: Last 24 hours water consumption
+    hours_to_show: 24
+    group_by: hour
+    hour24: true
+    show:
+      graph: bar
+      labels: true
+    color_thresholds:
+      - value: 0
+        color: "#f5fdff"
+      - value: 1
+        color: "#3295a8"               
+    style: |
+     ha-card {
+        --ha-card-border-radius: '8px';
+        --ha-card-border-size: '1px';
+        --ha-card-border-color: rgba(255, 255, 0, 0);
+        --ha-card-box-shadow: 'none';
+     }  
 ```
 
