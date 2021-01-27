@@ -1,7 +1,7 @@
-erie_watertreatment
-===================
+Erie Water Treatment IQSoft Home Assistant Integration 
+=========================================================
 
-Erie Connect IQSoft26 experimental integration for Home Assistant (mainly for my own use and experiments).
+Erie Connect IQSoft experimental integration for Home Assistant (mainly for my own use and experiments).
 No support is given.
 
 Integration works by pooling Erie Connect API every 90 seconds. It uses API client from this repo:
