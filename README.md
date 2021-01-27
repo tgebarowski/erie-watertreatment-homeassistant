@@ -68,7 +68,7 @@ Exemplary Lovelace cards:
 
 ### Infobox
 
-![image](https://github.com/tgebarowski/erie-watertreatment-homeassistant/blob/main/img/entities-card.png|width=500)
+![image](https://github.com/tgebarowski/erie-watertreatment-homeassistant/blob/main/img/entities-card.png | width=500)
 
 ```yaml
 cards:
