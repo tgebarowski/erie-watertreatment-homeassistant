@@ -158,3 +158,7 @@ cards:
      }  
 ```
 
+Authors
+-------
+
+`erie_connect` This Home Assistant integration was written by `Tomasz Gebarowski <gebarowski@gmail.com>`_.
