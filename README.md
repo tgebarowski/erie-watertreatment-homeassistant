@@ -158,6 +158,27 @@ cards:
      }  
 ```
 
+Automations
+-----------
+
+### Notify when salt level is low (trigger at constant time)
+
+```yaml
+- alias: 'Low salt level in water softener'
+  trigger:
+    - platform: time
+      at: '18:30:00'
+  condition:
+    - condition: state
+      entity_id: binary_sensor.erie_watertreatment_low_salt
+      state: 'True'
+  action:
+    - service: script.notify_my_iphone
+      data:
+        message: "🧂 Low salt level in water softener"
+
+```
+
 Authors
 -------
 
