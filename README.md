@@ -68,7 +68,7 @@ Exemplary Lovelace cards:
 
 ### Infobox
 
-![image](https://github.com/tgebarowski/SwiftySettings/blob/main/erie-watertreatment-homeassistant/img/entities-card.png)
+![image](https://github.com/tgebarowski/erie-watertreatment-homeassistant/blob/main/img/entities-card.png)
 
 ```yaml
 cards:
@@ -95,7 +95,7 @@ cards:
 
 ### Displaying water consumption during last 7 days:
 
-![image](https://github.com/tgebarowski/SwiftySettings/blob/main/erie-watertreatment-homeassistant/img/water-flow-week.png)
+![image](https://github.com/tgebarowski/erie-watertreatment-homeassistant/blob/main/img/water-flow-week.png)
 
 ```yaml
 cards:
@@ -127,7 +127,7 @@ cards:
 
 ### Displaying water consumption during last 24 hours:
 
-![image](https://github.com/tgebarowski/SwiftySettings/blob/main/erie-watertreatment-homeassistant/img/water-flow-24hrs.png)
+![image](https://github.com/tgebarowski/erie-watertreatment-homeassistant/blob/main/img/water-flow-24hrs.png)
 
 
 ```yaml
