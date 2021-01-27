@@ -47,7 +47,8 @@ async def async_setup_entry(hass, entry, async_add_entities):
                 ErieStatusSensor(coordinator, "last_regeneration", ""),
                 ErieStatusSensor(coordinator, "nr_regenerations", ""),
                 ErieStatusSensor(coordinator, "last_maintenance", ""),
-                ErieStatusSensor(coordinator, "total_volume", "L")]
+                ErieStatusSensor(coordinator, "total_volume", "L"),
+                ErieWarning(coordinator)]
 
     async_add_entities(entities)
 
@@ -95,8 +96,32 @@ class ErieVolumeIncreaseSensor(Entity):
 
         Only used by the generic entity update service.
         """
-        await self.coordinator.async_request_refresh()        
+        await self.coordinator.async_request_refresh()
 
+class ErieWarning(Entity):
+    """Representation of a sensor."""    
+    def __init__(self, coordinator):
+        """Initialize the sensor."""
+        self.coordinator = coordinator
+        self.info_type = "warnings"
+
+    @property
+    def name(self):
+        """Return the name of the sensor."""
+        return f'{DOMAIN}.{self.info_type}'
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+
+        _LOGGER.warn(f'{DOMAIN}: sensor: state: {self.coordinator.data}')
+        status = self.coordinator.data
+        if status != None:
+            warning_string = ""
+            for warning in status[self.info_type]:
+                warning_string += "⚠️ " + warning["description"] + "\n"
+            return warning_string if warning_string != "" else None
+        return None
 
 class ErieStatusSensor(Entity):
     """Representation of a sensor."""    
@@ -124,6 +149,6 @@ class ErieStatusSensor(Entity):
     @property
     def unit_of_measurement(self):
         """Return the unit of measurement."""
-        return self.unit     
+        return self.unit
 
 

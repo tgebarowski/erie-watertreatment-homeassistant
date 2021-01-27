@@ -47,7 +47,7 @@ from .const import (
     CONF_DEVICE_NAME    
 )
 
-PLATFORMS = ["sensor"]
+PLATFORMS = ["sensor", "binary_sensor"]
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -118,12 +118,13 @@ async def create_coordinator(hass, api):
         try:
             async with async_timeout.timeout(120):
                 response = await hass.async_add_executor_job(api.info)
-                _LOGGER.debug(f'{DOMAIN}: sensor: {response}')
+                response_dashboard = await hass.async_add_executor_job(api.dashboard)
             return {
                 "last_regeneration": response.content["last_regeneration"],
                 "nr_regenerations": response.content["nr_regenerations"],
                 "last_maintenance": response.content["last_maintenance"],
-                "total_volume": response.content["total_volume"].split()[0]
+                "total_volume": response.content["total_volume"].split()[0],
+                "warnings": response_dashboard.content["warnings"]
             }
         except:
             raise SensorUpdateFailed
