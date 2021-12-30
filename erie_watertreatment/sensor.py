@@ -88,6 +88,11 @@ class ErieVolumeIncreaseSensor(Entity):
         """Return the unit of measurement."""
         return self.unit
 
+    @property
+    def state_class(self):
+        """Returns state_class"""
+        return "total_increasing"
+
     def get_int_from_sensor_value(self, string_value):
         if string_value != None:
             return int(string_value.split()[0])
