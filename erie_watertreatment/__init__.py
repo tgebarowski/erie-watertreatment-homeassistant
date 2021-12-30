@@ -50,6 +50,8 @@ from .const import (
 PLATFORMS = ["sensor", "binary_sensor"]
 
 _LOGGER = logging.getLogger(__name__)
+urllib3_logger = logging.getLogger('urllib3')
+urllib3_logger.setLevel(logging.CRITICAL)
 
 CONFIG_SCHEMA = vol.Schema(
     {
@@ -63,13 +65,13 @@ CONFIG_SCHEMA = vol.Schema(
 )
 
 async def async_setup(hass, config):
-    _LOGGER.warn(f'{DOMAIN}: async_setup')
+    _LOGGER.debug(f'{DOMAIN}: async_setup')
 
     return True
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
-    _LOGGER.warn(f'{DOMAIN}: async_setup_entry: entry {entry} ')
+    _LOGGER.debug(f'{DOMAIN}: async_setup_entry: entry {entry} ')
 
     api = ErieConnect(entry.data[CONF_EMAIL],
                       entry.data[CONF_PASSWORD],

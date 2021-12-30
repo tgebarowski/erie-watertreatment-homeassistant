@@ -19,9 +19,11 @@ from .const import (
 )
 
 _LOGGER = logging.getLogger(__name__)
+urllib3_logger = logging.getLogger('urllib3')
+urllib3_logger.setLevel(logging.CRITICAL)
 
 async def async_setup_entry(hass, entry, async_add_entities):
-    _LOGGER.warn(f'{DOMAIN}: sensor: async_setup_entry: {entry}')
+    _LOGGER.debug(f'{DOMAIN}: sensor: async_setup_entry: {entry}')
 
     coordinator = await get_coordinator(hass)
 

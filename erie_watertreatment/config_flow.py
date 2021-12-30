@@ -25,7 +25,7 @@ from .const import (
 _LOGGER = logging.getLogger(__name__)
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for Coronavirus."""
+    """Handle a config flow for Erie Watertreatment IQ26."""
 
     VERSION = 1
     CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
@@ -35,7 +35,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_user(self, user_input=None):
         """Handle the initial step."""
 
-        _LOGGER.warn(f'{DOMAIN}: async_step_user: {user_input}')
+        _LOGGER.debug(f'{DOMAIN}: async_step_user: {user_input}')
 
         errors = {}
 
@@ -100,10 +100,10 @@ def _login_and_select_first_active_device(api):
     """Login Erie Connect and select first active device"""
     # These do i/o
 
-    _LOGGER.warn(f'{DOMAIN}: erie_connect.login()')
+    _LOGGER.debug(f'{DOMAIN}: erie_connect.login()')
 
     api.login()
-    _LOGGER.warn(f'{DOMAIN}: erie_connect.select_first_active_device()')
+    _LOGGER.debug(f'{DOMAIN}: erie_connect.select_first_active_device()')
     api.select_first_active_device()
 
     if (
