@@ -1,8 +1,9 @@
 {
   "domain": "erie_watertreatment",
+  "version": "1.0.0",
   "name": "Erie Water Treatment IQ26",
   "config_flow": true,
-  "documentation": "https://www.example.com",
+  "documentation": "https://github.com/tgebarowski/erie-watertreatment-homeassistant",
   "dependencies": [],
   "codeowners": ["@tgebarowski"],
   "requirements": ["erie-connect==0.4.1"]
