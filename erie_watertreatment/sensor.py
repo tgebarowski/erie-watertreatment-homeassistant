@@ -41,8 +41,6 @@ urllib3_logger = logging.getLogger('urllib3')
 urllib3_logger.setLevel(logging.CRITICAL)
 
 async def async_setup_entry(hass, entry, async_add_entities):
-    _LOGGER.debug(f'{DOMAIN}: sensor: async_setup_entry: {entry}')
-
     coordinator = await get_coordinator(hass)
 
     entities = [ErieVolumeIncreaseSensor(hass, coordinator, "total_volume", "flow", "L"),
@@ -74,11 +72,14 @@ class ErieVolumeIncreaseSensor(Entity):
         """Return the state of the sensor."""
         sensor_name = f'sensor.{DOMAIN}_{self.info_type}'
         old_state = self.hass.states.get(f'{sensor_name}')
-        _LOGGER.debug(f'{sensor_name}: sensor: state: {self.coordinator.data} old_state: {old_state}')
+        _LOGGER.debug("%s: calculating volume increase", sensor_name)
         if self.coordinator.data != None and self.info_type in self.coordinator.data and old_state != None:
             old_value = self.get_int_from_sensor_value(old_state.state)
             new_value = self.get_int_from_sensor_value(self.coordinator.data[self.info_type])
-            flow = new_value - old_value
+            if old_value is None or new_value is None:
+                flow = 0
+            else:
+                flow = new_value - old_value
         else:
             flow = 0
         return flow
@@ -94,9 +95,12 @@ class ErieVolumeIncreaseSensor(Entity):
         return "total_increasing"
 
     def get_int_from_sensor_value(self, string_value):
-        if string_value != None:
-            return int(string_value.split()[0])
-        return None
+        if string_value is None:
+            return None
+        try:
+            return int(str(string_value).split()[0])
+        except (ValueError, IndexError):
+            return None
 
     async def async_update(self):
         """Update the entity.
@@ -121,12 +125,12 @@ class ErieWarning(Entity):
     def state(self):
         """Return the state of the sensor."""
 
-        _LOGGER.debug(f'{DOMAIN}: sensor: state: {self.coordinator.data}')
         status = self.coordinator.data
         if status != None:
             warning_string = ""
             for warning in status[self.info_type]:
-                warning_string += "⚠️ " + warning["description"] + "\n"
+                warning_string += "⚠️ " + warning["description"] + "
+"
             return warning_string if warning_string != "" else None
         return None
 
@@ -147,7 +151,6 @@ class ErieStatusSensor(Entity):
     def state(self):
         """Return the state of the sensor."""
 
-        _LOGGER.debug(f'{DOMAIN}: sensor: state: {self.coordinator.data}')
         status = self.coordinator.data
         if status != None:
             return status[self.info_type]
@@ -157,5 +160,3 @@ class ErieStatusSensor(Entity):
     def unit_of_measurement(self):
         """Return the unit of measurement."""
         return self.unit
-
-
