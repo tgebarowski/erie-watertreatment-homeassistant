@@ -23,8 +23,6 @@ urllib3_logger = logging.getLogger('urllib3')
 urllib3_logger.setLevel(logging.CRITICAL)
 
 async def async_setup_entry(hass, entry, async_add_entities):
-    _LOGGER.debug(f'{DOMAIN}: sensor: async_setup_entry: {entry}')
-
     coordinator = await get_coordinator(hass)
 
     entities = [ErieLowSaltBinarySensor(coordinator)]
@@ -55,4 +53,3 @@ class ErieLowSaltBinarySensor(Entity):
         if status != None and status["warnings"]:
             return status["warnings"][0]["description"].find("Salt") != -1
         return False        
-
