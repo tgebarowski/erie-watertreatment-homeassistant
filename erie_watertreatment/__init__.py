@@ -21,7 +21,6 @@ from homeassistant.helpers import entity
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.entity_component import EntityComponent
-from homeassistant import exceptions
 
 from erie_connect.client import ErieConnect
 
@@ -70,9 +69,6 @@ async def async_setup(hass, config):
     return True
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
-
-    _LOGGER.debug(f'{DOMAIN}: async_setup_entry: entry {entry} ')
-
     api = ErieConnect(entry.data[CONF_EMAIL],
                       entry.data[CONF_PASSWORD],
                       ErieConnect.Auth(entry.data[CONF_ACCESS_TOKEN],
@@ -83,26 +79,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
                                          entry.data[CONF_DEVICE_NAME]))
     # Make sure coordinator is initialized.
     await create_coordinator(hass, api)
-    
-    for component in PLATFORMS:
-        await hass.async_create_task(
-                hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-       )
-        
+
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+
     return True
     
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Unload a config entry."""
-    unload_ok = all(
-        await asyncio.gather(
-            *[
-                hass.config_entries.async_forward_entry_unload(entry, component)
-                for component in PLATFORMS
-            ]
-        )
-    )
-    return unload_ok
+    return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
 
 async def get_coordinator(hass):
     return hass.data[DOMAIN]
@@ -128,8 +113,11 @@ async def create_coordinator(hass, api):
                 "total_volume": response.content["total_volume"].split()[0],
                 "warnings": response_dashboard.content["warnings"]
             }
-        except:
-            raise SensorUpdateFailed
+        except Exception as err:
+            # Avoid logging API responses or credentials while retaining a useful error type.
+            raise UpdateFailed(
+                f"{DOMAIN} data refresh failed ({type(err).__name__})"
+            ) from None
 
         
     hass.data[DOMAIN] = DataUpdateCoordinator(
@@ -145,6 +133,3 @@ async def create_coordinator(hass, api):
     # Fetch initial data so we have data when entities subscribe
     await hass.data[DOMAIN].async_refresh()
     return hass.data[DOMAIN]  
-
-class SensorUpdateFailed(exceptions.HomeAssistantError):
-    """Error to indicate we get invalid data from the nas."""    

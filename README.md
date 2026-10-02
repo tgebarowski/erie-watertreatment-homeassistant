@@ -39,28 +39,35 @@ Exemplary template snippets
     erie_watertreatment_last_maintenance_formatted_date:
       friendly_name: Last Maintenance Date
       value_template: >
-       {{ as_timestamp(states('sensor.erie_watertreatment_last_maintenance')) | timestamp_custom("%d/%m/%Y @ %H:%M:%S", True) }}
+        {% set timestamp = as_timestamp(states('sensor.erie_watertreatment_last_maintenance'), default=none) %}
+        {{ timestamp | timestamp_custom("%d/%m/%Y @ %H:%M:%S", True) if timestamp is not none else 'unknown' }}
 
 - platform: template
   sensors:
     erie_watertreatment_last_regeneration_formatted_date:
       friendly_name: Last Regeneration Date
       value_template: >
-       {{ as_timestamp(states('sensor.erie_watertreatment_last_regeneration')) | timestamp_custom("%d/%m/%Y @ %H:%M:%S", True) }}
+        {% set timestamp = as_timestamp(states('sensor.erie_watertreatment_last_regeneration'), default=none) %}
+        {{ timestamp | timestamp_custom("%d/%m/%Y @ %H:%M:%S", True) if timestamp is not none else 'unknown' }}
 
 - platform: template
   sensors:
     erie_watertreatment_time_until_maintenance:
       friendly_name: Time Until Maintenance
       value_template: >
-       {%- set days = (( as_timestamp(states('sensor.erie_watertreatment_last_maintenance')) + 3600 * 24 * 30 * 12 - as_timestamp(now()) )/ (3600*24)) | round(0, "ceil") -%}
-       {% if days > 30 %}
-       {{ (days / 30) | round(0, "ceil") }} months
-       {% elif days > 14 %}
-       {{ days }} days
-       {% else %}
-       {{ days }} days ❗️
-       {% endif %}
+        {% set maintenance = as_timestamp(states('sensor.erie_watertreatment_last_maintenance'), default=none) %}
+        {% if maintenance is none %}
+          unknown
+        {% else %}
+          {% set days = ((maintenance + 3600 * 24 * 30 * 12 - as_timestamp(now())) / (3600 * 24)) | round(0, "ceil") %}
+          {% if days > 30 %}
+            {{ (days / 30) | round(0, "ceil") }} months
+          {% elif days > 14 %}
+            {{ days }} days
+          {% else %}
+            {{ days }} days ❗️
+          {% endif %}
+        {% endif %}
 ```
 
 Exemplary Lovelace cards:
