@@ -35,8 +35,6 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_user(self, user_input=None):
         """Handle the initial step."""
 
-        _LOGGER.debug(f'{DOMAIN}: async_step_user: {user_input}')
-
         errors = {}
 
         if user_input is None:
@@ -45,7 +43,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         email = user_input["email"]
         password = user_input["password"]
 
-        _LOGGER.warn(f'{DOMAIN}: erie_connect create for {email}')
+        _LOGGER.debug("%s: starting Erie Connect sign-in", DOMAIN)
 
         self.api = ErieConnect(email, password)
 
@@ -57,7 +55,9 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             errors["base"] = "missing_data"
 
         if errors:
-            _LOGGER.warn(f'{DOMAIN}: Errors {errors}')
+            _LOGGER.warning(
+                "%s: Erie Connect sign-in did not return a usable device", DOMAIN
+            )
             return await self._show_setup_form(user_input, errors)            
 
         # Check if already configured
@@ -84,7 +84,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if not user_input:
             user_input = {}
 
-        _LOGGER.warn(f'{DOMAIN}: Show Setup Form: {user_input}')
+        _LOGGER.debug("%s: showing setup form", DOMAIN)
 
         schema: Dict[str, type] = OrderedDict()
         schema["email"] = str
@@ -115,4 +115,4 @@ def _login_and_select_first_active_device(api):
     return api.device.id
 
 class InvalidData(exceptions.HomeAssistantError):
-    """Error to indicate we get invalid data from the nas."""    
+    """Error to indicate we get invalid data from the nas."""
