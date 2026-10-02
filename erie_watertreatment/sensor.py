@@ -129,8 +129,7 @@ class ErieWarning(Entity):
         if status != None:
             warning_string = ""
             for warning in status[self.info_type]:
-                warning_string += "⚠️ " + warning["description"] + "
-"
+                warning_string += "⚠️ " + warning["description"] + "\n"
             return warning_string if warning_string != "" else None
         return None
 
