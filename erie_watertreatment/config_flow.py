@@ -27,7 +27,7 @@ _LOGGER = logging.getLogger(__name__)
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Erie Watertreatment IQ26."""
 
-    VERSION = 1
+    VERSION = 2
     CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
 
     _options = None
@@ -61,7 +61,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             return await self._show_setup_form(user_input, errors)            
 
         # Check if already configured
-        await self.async_set_unique_id(device_id, raise_on_progress=False)
+        await self.async_set_unique_id(str(device_id), raise_on_progress=False)
         self._abort_if_unique_id_configured()
 
         config_data = {

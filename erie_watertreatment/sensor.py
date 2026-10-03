@@ -13,7 +13,6 @@ from homeassistant.const import (
 from homeassistant import exceptions
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.helpers.event import async_track_time_interval
-from homeassistant.helpers.typing import HomeAssistantType
 from homeassistant.helpers import entity
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.helpers.entity import Entity
