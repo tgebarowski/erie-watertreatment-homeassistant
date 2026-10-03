@@ -16,7 +16,6 @@ from homeassistant.const import (
 )
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.helpers.event import async_track_time_interval
-from homeassistant.helpers.typing import HomeAssistantType
 from homeassistant.helpers import entity
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.helpers.entity import Entity
@@ -66,6 +65,19 @@ CONFIG_SCHEMA = vol.Schema(
 async def async_setup(hass, config):
     _LOGGER.debug(f'{DOMAIN}: async_setup')
 
+    return True
+
+
+async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+    """Normalize legacy numeric device IDs stored as config-entry unique IDs."""
+    if entry.version > 2:
+        return False
+
+    hass.config_entries.async_update_entry(
+        entry,
+        unique_id=str(entry.unique_id),
+        version=2,
+    )
     return True
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
